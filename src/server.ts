@@ -29,5 +29,5 @@ const requestListener: RequestListener = async function(req: any, res: any) {
 }
 
 const server = http.createServer(requestListener);
-server.listen(8080);
+server.listen(3000);
 server.on("error", (err) => console.log(err))
