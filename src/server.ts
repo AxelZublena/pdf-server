@@ -5,7 +5,20 @@ import { Stream } from "stream";
 import * as fs from "fs";
 import multiparty from "multiparty";
 
+import process from "process"
+
+process.on('SIGINT', () => {
+	console.info("\nInterrupted")
+	process.exit(0)
+})
+
 const requestListener: RequestListener = async function(req: any, res: any) {
+	if(req.method != "POST"){
+		res.writeHead(501);
+		res.end("Only accepts POST requests.");
+	return 0;
+	} 
+
 	let form = new multiparty.Form();
 
 	form.parse(req, async function(err, fields, files) {
@@ -30,4 +43,5 @@ const requestListener: RequestListener = async function(req: any, res: any) {
 
 const server = http.createServer(requestListener);
 server.listen(3000);
+console.log('Server stated at port 3000')
 server.on("error", (err) => console.log(err))
